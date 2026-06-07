@@ -1,34 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Tracker Blocker Settings</title>
-  <link rel="stylesheet" href="options.css">
+    <meta charset="UTF-8">
+    <title>Tracker Blocker Pro - Settings</title>
+    <link rel="stylesheet" href="options.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Tracker Blocker Settings</h1>
-    
-    <div class="setting">
-      <label>
-        <input type="checkbox" id="block-all">
-        Block all tracking cookies
-      </label>
+    <div class="container">
+        <h1>⚙️ Tracker Blocker Pro Settings</h1>
+        
+        <div class="setting-section">
+            <h2>🛡️ General Protection</h2>
+            <label class="setting-item">
+                <input type="checkbox" id="block-all">
+                <span>Block all tracking cookies</span>
+            </label>
+            <p class="description">When enabled, all detected tracker cookies will be blocked automatically.</p>
+        </div>
+        
+        <div class="setting-section">
+            <h2>⚡ Advanced Features</h2>
+            <label class="setting-item">
+                <input type="checkbox" id="auto-block">
+                <span>Automatic real-time blocking</span>
+            </label>
+            <p class="description">Block trackers immediately when they are created.</p>
+            
+            <label class="setting-item">
+                <input type="checkbox" id="learning-mode">
+                <span>Learning mode (heuristic detection)</span>
+            </label>
+            <p class="description">Automatically detect new trackers based on cross-site behavior.</p>
+            
+            <label class="setting-item">
+                <input type="checkbox" id="notifications">
+                <span>Show notifications</span>
+            </label>
+            <p class="description">Display a notification when a tracker is blocked.</p>
+        </div>
+        
+        <div class="setting-section">
+            <h2>📋 Whitelist</h2>
+            <p class="description">Domains where tracking cookies will be allowed (one per line).</p>
+            <textarea id="whitelist-input" rows="4" placeholder="example.com&#10;trusted-site.org"></textarea>
+            <button id="save-whitelist" class="btn-secondary">Save Whitelist</button>
+        </div>
+        
+        <div class="setting-section">
+            <h2>📊 Pending Suggestions</h2>
+            <p class="description">New potential trackers detected by learning mode.</p>
+            <div id="suggestions-list" class="suggestions-container">
+                <div class="empty-message">No pending suggestions</div>
+            </div>
+        </div>
+        
+        <div class="setting-section">
+            <h2>💾 Data Management</h2>
+            <button id="export-settings" class="btn-secondary">📤 Export Settings</button>
+            <button id="import-settings" class="btn-secondary">📥 Import Settings</button>
+            <button id="clear-stats" class="btn-danger">🗑️ Clear Statistics</button>
+            <input type="file" id="import-file" style="display: none;" accept=".json">
+        </div>
+        
+        <div class="action-buttons">
+            <button id="save-settings" class="btn-primary">💾 Save All Settings</button>
+        </div>
     </div>
     
-    <div class="setting">
-      <h2>Whitelist</h2>
-      <p>Domains where tracking cookies will be allowed</p>
-      <div class="whitelist-controls">
-        <input type="text" id="whitelist-input" placeholder="example.com">
-        <button id="add-whitelist">Add</button>
-      </div>
-      <ul id="whitelist-items"></ul>
-    </div>
-    
-    <button id="save-settings">Save Settings</button>
-  </div>
-  
-  <script src="options.js"></script>
+    <script src="options.js" type="module"></script>
 </body>
 </html>

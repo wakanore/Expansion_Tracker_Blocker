@@ -1,44 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Tracker Blocker</title>
-  <link rel="stylesheet" href="popup.css">
+    <meta charset="UTF-8">
+    <title>Tracker Blocker Pro</title>
+    <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Tracker Blocker</h1>
-      <div class="toggle-container">
-        <span id="status-text">Active</span>
-        <label class="switch">
-          <input type="checkbox" id="toggle-blocking" checked>
-          <span class="slider round"></span>
-        </label>
-      </div>
-    </header>
-
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-value" id="total-cookies">0</div>
-        <div class="stat-label">Total Cookies</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value" id="tracker-cookies">0</div>
-        <div class="stat-label">Trackers</div>
-      </div>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../assets/icons/icon16.png" alt="Icon" width="20" height="20">
+                <h1>Tracker Blocker Pro</h1>
+            </div>
+            <div class="toggle-container">
+                <span id="status-text">Active</span>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-blocking" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </header>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="total-cookies">0</div>
+                <div class="stat-label">Total Cookies</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="tracker-cookies">0</div>
+                <div class="stat-label">Trackers Found</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="blocked-today">0</div>
+                <div class="stat-label">Blocked Today</div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button id="scan-now" class="btn">🔄 Scan Now</button>
+            <button id="remove-all" class="btn danger">🗑️ Remove All</button>
+        </div>
+        
+        <div class="info-bar">
+            <span id="auto-block-status">⚡ Auto-block: ON</span>
+            <span id="learning-status">🧠 Learning: ON</span>
+        </div>
+        
+        <div class="tracker-list" id="tracker-list">
+            <div class="empty-state">Click "Scan Now" to find trackers</div>
+        </div>
+        
+        <footer>
+            <a href="#" id="open-options">⚙️ Settings</a>
+            <a href="#" id="open-stats">📊 Statistics</a>
+        </footer>
     </div>
-
-    <div class="actions">
-      <button id="scan-now" class="btn">Scan Now</button>
-      <button id="remove-all" class="btn danger">Remove All</button>
-    </div>
-
-    <div class="tracker-list" id="tracker-list">
-      <div class="empty-state">No trackers found</div>
-    </div>
-  </div>
-
-  <script src="popup.js"></script>
+    <script src="popup.js" type="module"></script>
 </body>
 </html>

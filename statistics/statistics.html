@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Tracker Blocker Pro - Statistics</title>
+    <link rel="stylesheet" href="statistics.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Blocking Statistics</h1>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="total-blocked">0</div>
+                <div class="stat-label">Total Trackers Blocked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="auto-blocked">0</div>
+                <div class="stat-label">Auto-Blocked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="today-blocked">0</div>
+                <div class="stat-label">Blocked Today</div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Daily Blocked Trackers</h2>
+            <canvas id="daily-chart" width="600" height="300"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Top Tracking Domains</h2>
+            <canvas id="top-domains-chart" width="600" height="300"></canvas>
+        </div>
+        
+        <div class="recent-list">
+            <h2>Recent Blocks</h2>
+            <div id="recent-blocks" class="recent-container">
+                <div class="empty-message">No blocks recorded yet</div>
+            </div>
+        </div>
+        
+        <button id="refresh-stats" class="btn-primary">🔄 Refresh</button>
+        <button id="export-stats" class="btn-secondary">📥 Export CSV</button>
+    </div>
+    
+    <script src="statistics.js" type="module"></script>
+</body>
+</html>
