@@ -1,5 +1,3 @@
-// utils/storage.js
-
 import { browserAPI } from '../lib/browser-polyfill.js';
 
 const DEFAULT_SETTINGS = {
@@ -103,22 +101,25 @@ export async function addObservedDomain(domain, siteUrl) {
     const { observedDomains = {} } = await browserAPI.storage.local.get('observedDomains');
     
     if (!observedDomains[domain]) {
-        observedDomains[domain] = { sites: new Set(), count: 0 };
+        observedDomains[domain] = { sites: [], count: 0 };
     }
     
-    observedDomains[domain].sites.add(siteUrl);
-    observedDomains[domain].count = observedDomains[domain].sites.size;
+    // Используем массив вместо Set для совместимости с JSON
+    if (!observedDomains[domain].sites.includes(siteUrl)) {
+        observedDomains[domain].sites.push(siteUrl);
+        observedDomains[domain].count = observedDomains[domain].sites.length;
+    }
     
     const entries = Object.entries(observedDomains);
     if (entries.length > 500) {
         const sorted = entries.sort((a, b) => b[1].count - a[1].count);
         const trimmed = Object.fromEntries(sorted.slice(0, 500));
         await browserAPI.storage.local.set({ observedDomains: trimmed });
+        return trimmed[domain] || observedDomains[domain];
     } else {
         await browserAPI.storage.local.set({ observedDomains });
+        return observedDomains[domain];
     }
-    
-    return observedDomains[domain];
 }
 
 export async function getObservedDomains() {

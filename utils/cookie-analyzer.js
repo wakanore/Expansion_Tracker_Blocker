@@ -1,5 +1,3 @@
-// utils/cookie-analyzer.js
-
 import { browserAPI } from '../lib/browser-polyfill.js';
 
 let trackerDb = null;

@@ -1,5 +1,3 @@
-// content.js
-
 console.log('[Tracker Blocker] Content script loaded');
 
 function detectTrackerScripts() {

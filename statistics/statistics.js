@@ -1,5 +1,3 @@
-// statistics/statistics.js
-
 import { browserAPI } from '../lib/browser-polyfill.js';
 import { getStats } from '../utils/storage.js';
 

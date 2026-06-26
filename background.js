@@ -1,5 +1,3 @@
-// background.js
-
 import { browserAPI } from './lib/browser-polyfill.js';
 import { isTrackerCookie } from './utils/cookie-analyzer.js';
 import { getSettings, addStatEntry } from './utils/storage.js';
@@ -72,14 +70,24 @@ function setupAutoBlocking() {
             }
         }
         
-        if (changeInfo.cause === 'explicit' && changeInfo.cookie) {
+        // Обучаемся на всех новых куки, которые не были удалены
+        if (!changeInfo.removed && changeInfo.cookie) {
             try {
-                const tabs = await browserAPI.tabs.query({ active: true, currentWindow: true });
-                if (tabs[0] && tabs[0].url) {
-                    await observeThirdPartyCookie(cookie, tabs[0].url);
+                // Пытаемся получить URL из контекста
+                let currentUrl = null;
+                if (changeInfo.cookie.domain) {
+                    // Формируем примерный URL из домена куки
+                    const domain = changeInfo.cookie.domain.startsWith('.') ? 
+                        changeInfo.cookie.domain.substring(1) : 
+                        changeInfo.cookie.domain;
+                    currentUrl = `https://${domain}`;
+                }
+                
+                if (currentUrl) {
+                    await observeThirdPartyCookie(cookie, currentUrl);
                 }
             } catch (e) {
-                // Игнорируем ошибки
+                // Игнорируем ошибки обучения
             }
         }
     });

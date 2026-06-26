@@ -1,5 +1,3 @@
-// utils/learner.js
-
 import { browserAPI } from '../lib/browser-polyfill.js';
 import { getSettings, addToWhitelist, addObservedDomain } from './storage.js';
 import { isTrackerCookie } from './cookie-analyzer.js';
@@ -10,15 +8,32 @@ export async function observeThirdPartyCookie(cookie, currentSiteUrl) {
     const { learningEnabled, whitelist, notificationsEnabled } = await getSettings();
     if (!learningEnabled) return false;
     
+    // Если нет URL, пытаемся определить по домену куки
     let siteDomain = '';
-    try {
-        const url = new URL(currentSiteUrl);
-        siteDomain = url.hostname.replace(/^www\./, '');
-    } catch (e) {
+    if (currentSiteUrl) {
+        try {
+            const url = new URL(currentSiteUrl);
+            siteDomain = url.hostname.replace(/^www\./, '');
+        } catch (e) {
+            return false;
+        }
+    } else if (cookie.domain) {
+        // Если URL не передан, используем домен куки как "сайт"
+        // (это не идеально, но позволяет собирать данные)
+        siteDomain = cookie.domain.replace(/^\./, '');
+    } else {
         return false;
     }
     
-    if (cookie.domain && cookie.domain.includes(siteDomain)) return false;
+    // Проверяем, что куки действительно сторонние
+    if (cookie.domain) {
+        const cookieDomain = cookie.domain.replace(/^\./, '');
+        // Если куки с того же домена - пропускаем
+        if (cookieDomain === siteDomain || siteDomain.endsWith('.' + cookieDomain)) {
+            return false;
+        }
+    }
+    
     if (whitelist.some(d => cookie.domain && cookie.domain.includes(d))) return false;
     
     const observed = await addObservedDomain(cookie.domain, siteDomain);
@@ -42,7 +57,7 @@ async function suggestNewTracker(domain, sites) {
     const suggestion = {
         id: Date.now(),
         domain: domain,
-        sites: Array.from(sites),
+        sites: Array.isArray(sites) ? sites : Array.from(sites || []),
         timestamp: Date.now(),
         status: 'pending'
     };
@@ -51,7 +66,7 @@ async function suggestNewTracker(domain, sites) {
     await browserAPI.storage.local.set({ pendingSuggestions });
     
     const { notificationsEnabled } = await getSettings();
-    if (notificationsEnabled) {
+    if (notificationsEnabled && browserAPI.notifications) {
         browserAPI.notifications.create(`tracker-suggestion-${suggestion.id}`, {
             type: 'basic',
             iconUrl: '/assets/icons/icon128.png',

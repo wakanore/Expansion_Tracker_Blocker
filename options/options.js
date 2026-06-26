@@ -1,5 +1,3 @@
-// options/options.js
-
 import { browserAPI } from '../lib/browser-polyfill.js';
 import { getSettings, saveSettings, clearStats } from '../utils/storage.js';
 import { getPendingSuggestions, acceptSuggestion, rejectSuggestion } from '../utils/learner.js';

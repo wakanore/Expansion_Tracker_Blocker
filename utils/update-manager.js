@@ -1,5 +1,3 @@
-// utils/update-manager.js
-
 import { browserAPI } from '../lib/browser-polyfill.js';
 import { getTrackerDatabase } from './cookie-analyzer.js';
 

@@ -1,5 +1,3 @@
-// popup/popup.js
-
 import { browserAPI } from '../lib/browser-polyfill.js';
 import { isTrackerCookie } from '../utils/cookie-analyzer.js';
 import { getSettings, saveSettings, getAggregatedStats } from '../utils/storage.js';
